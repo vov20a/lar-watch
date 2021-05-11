@@ -2514,6 +2514,13 @@ ul#currency ul {
 }
 
 
+/* =====product qty======== */
+
+.product-qty input {
+    width: 15%;
+}
+
+
 /*--media-quaries-starts-here--*/
 
 @media (max-width:1440px) {

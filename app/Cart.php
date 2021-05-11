@@ -13,7 +13,7 @@ class Cart
             session()->put('cart_currency', unserialize(Cookie::get('currency')));
         }
         // return session('cart_currency')->code;
-        $qty = $qty == '-1' ? -1 : 1;
+        $qty = $qty == '-1' ? -1 : (int)$qty;
         $arr = !empty(session('cart')) ? session('cart') : [];
         if (!empty($arr)) {
             //в корзине лежит первый товар-добавляем второй,третий и тд

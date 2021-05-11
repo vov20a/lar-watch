@@ -114,11 +114,18 @@ document.body.onload = function(event) {
     //=============/ cart============
 
 $(".add-to-cart").on("click", function(e) {
-    // e.preventDefault();
-    let data = $(this).data("id");
+    e.preventDefault();
+    let id = $(this).data("id");
+    //берем qty то что в input, иначе qty=1
+    let qty = null;
+    if ($('.product-qty').find('input').val() != null & $(this).hasClass('add-cart')) qty = $('.product-qty').find('input').val()
+    else qty = 1;
     $.ajax({
         url: "/cart/add",
-        data: { data: data },
+        data: {
+            id: id,
+            qty: qty
+        },
         type: "GET",
         success: function(res) {
             if (!res) {
@@ -131,7 +138,7 @@ $(".add-to-cart").on("click", function(e) {
             alert("Error add");
         }
     });
-    return false;
+    // return false;
 });
 
 function showCart(cart) {

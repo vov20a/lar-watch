@@ -18,14 +18,16 @@ class CartController extends Controller
     {
         // dd($request->data);
         //если qty!=1 то берут значение из input value=?-ставим в карточке продукта
-        if ($request->get('data') && $request->ajax()) {
-            $id = $request->get('data');
+        if ($request->get('id') && $request->ajax()) {
+            $id = $request->get('id');
+
             $product = Product::find($id);
             if (!$product) {
                 return false;
             }
+            $qty = $request->get('qty');
             $cart = new Cart();
-            $cart->addToCart($product);
+            $cart->addToCart($product, $qty);
 
             return view('carts.cart-modal');
             // echo $session;

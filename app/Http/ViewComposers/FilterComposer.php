@@ -30,8 +30,8 @@ class FilterComposer
             // dd($this->groups);
             //для работы с куками
             $this->groups = serialize($this->groups);
-            // Cookie::queue('groups', $this->groups, 60 * 24 * 7);
-            Cookie::queue('groups', $this->groups, 1);
+            Cookie::queue('groups', $this->groups, 60 * 24 * 7);
+            // Cookie::queue('groups', $this->groups, 1);
             //получаем опять объект
             $this->groups = unserialize($this->groups);
         }
@@ -51,8 +51,8 @@ class FilterComposer
             }
             //для работы с куками
             $this->attrs = serialize($attrs);
-            // Cookie::queue('attrs', $this->attrs, 60 * 24 * 7);
-            Cookie::queue('attrs', $this->attrs, 1);
+            Cookie::queue('attrs', $this->attrs, 60 * 24 * 7);
+            // Cookie::queue('attrs', $this->attrs, 1);
             //получаем опять объект
             $this->attrs = unserialize($this->attrs);
         }

@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     public $filter = null;
+    public $cnt_groups = null;
+
     public function show($slug, Request $request)
     {
         // $cats = Category::all();
@@ -58,12 +60,18 @@ class CategoryController extends Controller
         $show = false;
         if ($request->filter) {
             $this->filter = Category::getFilter($request);
+            //посчет задействованных групп
+            $this->cnt_groups = Category::getCountFilter($this->filter);
+            // dd($this->cnt_groups);
             if ($request->ajax()) {
                 $this->filter = explode(',', $this->filter);
                 //запоминаем отмеченные фильтры
                 session()->put('filter', $this->filter);
+                // $products = Product::whereIn('category_id', $ids)->whereIn('id', function ($query) {
+                //     $query->select('product_id')->from('Attribute__Products')->whereIn('attr_id', $this->filter);
+                // })->paginate(3);
                 $products = Product::whereIn('category_id', $ids)->whereIn('id', function ($query) {
-                    $query->select('product_id')->from('Attribute__Products')->whereIn('attr_id', $this->filter);
+                    $query->select('product_id')->from('Attribute__Products')->whereIn('attr_id', $this->filter)->groupBy('product_id')->havingRaw("COUNT('product_id') = ?", [$this->cnt_groups]);
                 })->paginate(3);
                 $filter = implode(',', $this->filter);
                 // dd($products);
@@ -73,7 +81,7 @@ class CategoryController extends Controller
             $this->filter = explode(',', $this->filter);
             session()->put('filter', $this->filter);
             $products = Product::whereIn('category_id', $ids)->whereIn('id', function ($query) {
-                $query->select('product_id')->from('Attribute__Products')->whereIn('attr_id', $this->filter);
+                $query->select('product_id')->from('Attribute__Products')->whereIn('attr_id', $this->filter)->groupBy('product_id')->havingRaw("COUNT('product_id') = ?", [$this->cnt_groups]);
             })->paginate(3);
             $show = true;
             return view('categories.show', compact('products', 'category', 'breadcrumbs', 'filter', 'show'));

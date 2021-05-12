@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Http\Request;
 
 class Category extends Model
 {
@@ -52,5 +53,14 @@ class Category extends Model
             }
         }
         return $ids;
+    }
+    public static function getFilter(Request $request)
+    {
+        $filter = null;
+        if (!empty($request->filter)) {
+            $filter = preg_replace("#[^\d,]+#", '', $request->filter);
+            $filter = rtrim($filter, ',');
+            return $filter;
+        }
     }
 }

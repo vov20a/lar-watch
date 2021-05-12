@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/welcome', function () {
+    return view('welcome');
+});
 Route::get('/', "HomeController@index")->name('home');
 //category
 Route::get('/category/{slug}', 'CategoryController@show')->name(

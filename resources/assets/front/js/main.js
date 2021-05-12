@@ -287,3 +287,54 @@ $(function() {
         });
     });
 });
+/* filters */
+$('body').on('change', '.w_sidebar input', function() {
+    var checked = $('.w_sidebar input:checked'),
+        data = '';
+    checked.each(function() {
+        data += this.value + ',';
+    });
+    // console.log(data);
+    if (data) {
+        $.ajax({
+            //работаем с текущим URL-domen/category/slug
+            //потом появляются get-параметры(?filter=2,1,&page=2)
+            url: location.href,
+            data: { filter: data },
+            type: 'GET',
+            beforeSend: function() {
+                $('.preloader').fadeIn(300, function() {
+                    $('.product-one').hide();
+                })
+            },
+            success: function(res) {
+                // console.log(res);
+                $('.preloader').delay(500).fadeOut('slow', function() {
+                    $('.product-one').html(res).fadeIn();
+                    //метод search-ищет get параметра в адресной строке
+                    var url = location.search.replace(/filter(.+?)(&|$)/g, '');
+                    var newURL = location.pathname + url + (location.search ? "&" : "?") +
+                        "filter=" + data;
+
+                    newURL = newURL.replace('&&', '&');
+                    newURL = newURL.replace('?&', '?');
+                    //если page=>2 при сбросе птички-ошибка(если на этой странице нечего показывать)-принудительно идем на page=1
+                    if (newURL.match(/(page=[^1])/g)) {
+                        newURL = newURL.replace(/(page=[^1])/g, 'page=1');
+                        history.pushState({}, '', newURL);
+                        location = newURL;
+                    }
+                    //pushState() -заменяет старую адр строку на newURL
+                    history.pushState({}, '', newURL);
+                });
+            },
+            error: function() {
+                alert('Ошибка фильтра');
+            }
+        });
+    } else {
+        //перезагрузка страницы
+        window.location = location.pathname;
+    }
+
+});

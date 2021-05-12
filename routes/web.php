@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/welcome', function () {
     return view('welcome');
 });
+
+
 Route::get('/', "HomeController@index")->name('home');
 //category
 Route::get('/category/{slug}', 'CategoryController@show')->name(
@@ -82,16 +84,26 @@ Route::group(['middleware' => 'forgot'], function () {
 
 //email
 Route::post('/send', 'CartController@send')->name('send.mail');
+// Route::get('/admin', 'Admin\MainController@index');
 
-//Восстановление пароля
-//получаем email из формы для восстановления пароля
-Route::post('/forgot', 'ForgotController@restore')->name('forgot');
-//возврат по ссылке с get- параметром hash
-Route::get('/link/{hash}', 'ForgotController@restore')->name('link');
-//получаем новый пароль от usera
-Route::post('/create', 'ForgotController@create')->name('create.password');
-//ограничиваем доступ к стр restore и create методом GET
-Route::group(['middleware' => 'forgot'], function () {
-    Route::get('/forgot', 'ForgotController@restore');
-    Route::get('/create', 'ForgotController@create');
-});
+//admin routes
+Route::group(
+    [
+        'prefix' => 'admin',
+        'namespace' => 'Admin',
+        'middleware' => 'admin',
+    ],
+    function () {
+        Route::get('/', 'MainController@index')->name('admin.index');
+        //имена маршрутов см по команде $ php artisan route:list --path=admin/cat-уже заданы 7 шт
+        Route::resource('/categories', 'categoryController');
+        //имена маршрутов см по команде $ php artisan route:list --path=admin/user-уже заданы 7 шт
+        Route::resource('/users', 'userController');
+        //имена маршрутов см по команде $ php artisan route:list --path=admin/order-уже заданы 7 шт
+        Route::resource('/orders', 'orderController');
+        //имена маршрутов см по команде $ php artisan route:list --path=admin/product-уже заданы 7 шт
+        Route::resource('/products', 'productController');
+        //имена маршрутов см по команде $ php artisan route:list --path=admin/currency-уже заданы 7 шт
+        Route::resource('/currencies', 'CurrencyController');
+    }
+);

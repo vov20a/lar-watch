@@ -15,7 +15,7 @@ window.addEventListener('load', function() {
 }, false);
 // ==========================
 //Initialize Select2 Elements
-// $('.select2').select2();
+$('.select2').select2();
 
 // =================Change status of order======
 $('body').on('click', '#order_status', function() {

@@ -35,8 +35,13 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('layouts.partials.filter', FilterComposer::class);
         //создаем виджет валют в search-cart.blade
         view()->composer('layouts.partials.currency_ul', CurrencyComposer::class);
-        //создаем меню в section navbar.blade
-        //    view()->composer('admin.layouts.partials.tab_menu', MenuComposer::class);
+        // menu of site
         view()->composer('layouts.partials.menu_ul', MenuComposer::class);
+
+        //создаем одно отображение категорий -в нескольких видах
+        view()->composer([
+            'layouts.partials.menu_ul', 'admin.layouts.partials.tab_menu',
+            'admin.layouts.partials.select_menu', 'admin.layouts.partials.select_product',
+        ], MenuComposer::class);
     }
 }

@@ -20,7 +20,12 @@ class Category extends Model
     {
         return $this->hasMany(Product::class);
     }
-    public function parents()
+    //неправильное название
+    // public function parents()
+    // {
+    //     return $this->hasMany(Category::class, 'parent_id');
+    // }
+    public function childs()
     {
         return $this->hasMany(Category::class, 'parent_id');
     }

@@ -84,7 +84,10 @@ Route::group(['middleware' => 'forgot'], function () {
 
 //email
 Route::post('/send', 'CartController@send')->name('send.mail');
+
+
 // Route::get('/admin', 'Admin\MainController@index');
+
 
 //admin routes
 Route::group(
@@ -94,6 +97,10 @@ Route::group(
         'middleware' => 'admin',
     ],
     function () {
+        //===admin change status=====
+        Route::post('/order/status', 'OrderController@status')->name('changeStatus');
+        // Route::get('/order/status', 'OrderController@status')->name('changeStatus');
+
         Route::get('/', 'MainController@index')->name('admin.index');
         //имена маршрутов см по команде $ php artisan route:list --path=admin/cat-уже заданы 7 шт
         Route::resource('/categories', 'categoryController');

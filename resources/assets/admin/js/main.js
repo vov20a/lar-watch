@@ -1,3 +1,83 @@
+$(document).ready(function() {
+    //указатель меню
+    $('.nav-sidebar a').each(function() {
+        let location = window.location.protocol + '//' + window.location.host + window.location.pathname;
+        let link = this.href;
+        if (link == location) {
+            $(this).addClass('active');
+            $(this).closest('.has-treeview').addClass('menu-open');
+        }
+    });
+    
+    //initialize upload image name
+    bsCustomFileInput.init();
+
+    //Initialize Select2 Elements
+    $('.select2').select2();
+    //===================editor-content===========
+    if ($('textarea').is('#content')) { //что бы не создавать объект на главной странице-иначе ошибка
+        // var buttonCarousel = $('#img');
+        // var file;
+
+
+        ClassicEditor
+            .create(document.querySelector('#content'), {
+                ckfinder: {
+                    uploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json'
+                },
+                image: {
+                    // You need to configure the image toolbar, too, so it uses the new style buttons.
+                    toolbar: ['imageTextAlternative', '|', 'imageStyle:alignLeft', 'imageStyle:full', 'imageStyle:alignRight'],
+
+                    styles: [
+                        // This option is equal to a situation where no style is applied.
+                        'full',
+
+                        // This represents an image aligned to the left.
+                        'alignLeft',
+
+                        // This represents an image aligned to the right.
+                        'alignRight'
+                    ]
+                },
+                toolbar: {
+                    items: [
+                        'heading',
+                        '|',
+                        'bold',
+                        'italic',
+                        'link',
+                        'bulletedList',
+                        'numberedList',
+                        '|',
+                        'indent',
+                        'outdent',
+                        'alignment',
+                        '|',
+                        'blockQuote',
+                        'insertTable',
+                        'undo',
+                        'redo',
+                        'CKFinder',
+                        'mediaEmbed'
+                    ]
+                },
+                language: 'ru',
+                table: {
+                    contentToolbar: [
+                        'tableColumn',
+                        'tableRow',
+                        'mergeTableCells'
+                    ]
+                },
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
+    }
+
+})
+
 // validation init
 window.addEventListener('load', function() {
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -13,9 +93,6 @@ window.addEventListener('load', function() {
         }, false);
     });
 }, false);
-// ==========================
-//Initialize Select2 Elements
-$('.select2').select2();
 
 // =================Change status of order======
 $('body').on('click', '#order_status', function() {
@@ -40,4 +117,9 @@ $('body').on('click', '#order_status', function() {
             alert("Error status");
         }
     })
+});
+// reset radio boxes
+$('#reset-filter').click(function () {
+    $('#filter input[type=radio]').prop('checked', false);
+    return false;
 });

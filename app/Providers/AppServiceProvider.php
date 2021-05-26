@@ -31,8 +31,8 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        //создаем filter в categories views
-        view()->composer('layouts.partials.filter', FilterComposer::class);
+        //создаем filter в categories views и в adminLTE
+        view()->composer(['layouts.partials.filter', 'admin.layouts.partials.admin_filter'], FilterComposer::class);
         //создаем виджет валют в search-cart.blade
         view()->composer('layouts.partials.currency_ul', CurrencyComposer::class);
         // menu of site

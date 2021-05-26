@@ -34,8 +34,8 @@
                     <form action="{{ route('categories.store') }}" method="POST" class="needs-validation" novalidate>
                         @csrf
                         <div class="box-body">
-                            <div class="form-group>
-                                <label for=" title">Наименование категории</label>
+                            <div class="form-group">
+                                <label for="title">Наименование категории</label>
                                 <input type="text" name='title'
                                     class="form-control @error('title')  is-invalid @enderror" id=" title"
                                     placeholder="Наименование категории" required>
@@ -46,7 +46,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="parent-id">Родительская категория</label>
-                                <div class="list-group list-group-root well">
+                                <div class="list-group list-group-root well" id="parent-id">
                                     @include('admin.layouts.partials.select_menu')
                                 </div>
                             </div>

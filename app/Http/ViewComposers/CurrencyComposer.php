@@ -12,19 +12,8 @@ class CurrencyComposer
     public function compose(View $view)
     {
         $currency = self::getStart();
-
-        $currencies = Currency::orderBy('base', 'desc')->get();
-        $currencies_arr = [];
-        foreach ($currencies as $k => $item) {
-            $currencies_arr[$item->code]['title'] = $item->title;
-            $currencies_arr[$item->code]['code'] = $item->code;
-            $currencies_arr[$item->code]['symbol_left'] = $item->symbol_left;
-            $currencies_arr[$item->code]['symbol_right'] = $item->symbol_right;
-            $currencies_arr[$item->code]['value'] = $item->value;
-            $currencies_arr[$item->code]['base'] = $item->base;
-        }
+        $currencies_arr = self::getCurrencies();
         $currency_arr = [];
-
         $key = $currency->code;
         // dd(var_dump($currency));
 
@@ -36,7 +25,7 @@ class CurrencyComposer
     }
     public static function getStart()
     {
-        //get from cache or put in cache
+        //get from cookie or put in cookie
         if (Cookie::get('currency')) {
             $currency = Cookie::get('currency');
             $currency = unserialize($currency);
@@ -50,5 +39,30 @@ class CurrencyComposer
             $currency = unserialize($currency);
         }
         return $currency;
+    }
+    public static function getCurrencies()
+    {
+        //get from cookie or put in cookie
+        if (Cookie::get('currencies_arr')) {
+            $currencies_arr = Cookie::get('currencies_arr');
+            $currencies_arr = unserialize($currencies_arr);
+        } else {
+            $currencies = Currency::orderBy('base', 'desc')->get();
+            $currencies_arr = [];
+            foreach ($currencies as $k => $item) {
+                $currencies_arr[$item->code]['title'] = $item->title;
+                $currencies_arr[$item->code]['code'] = $item->code;
+                $currencies_arr[$item->code]['symbol_left'] = $item->symbol_left;
+                $currencies_arr[$item->code]['symbol_right'] = $item->symbol_right;
+                $currencies_arr[$item->code]['value'] = $item->value;
+                $currencies_arr[$item->code]['base'] = $item->base;
+            }
+            //для работы с куками
+            $currencies_arr = serialize($currencies_arr);
+            Cookie::queue('currencies_arr', $currencies_arr, 60 * 24 * 7);
+            //получаем опять объект
+            $currencies_arr = unserialize($currencies_arr);
+        }
+        return $currencies_arr;
     }
 }

@@ -1,5 +1,6 @@
 <li class="label"><span class="curr_selected">{{ $currency['code'] }}
-        <span class="glyphicon glyphicon-triangle-bottom icon-curr" aria-hidden="true"></span></span>
+        <span class="glyphicon glyphicon-triangle-bottom icon-curr" aria-hidden="true"></span>
+    </span>
     <ul>
         @foreach ($currencies as $k =>$item)
         @if ($k !=$currency['code'])

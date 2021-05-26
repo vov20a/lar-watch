@@ -3,6 +3,7 @@
 namespace app\Http\ViewComposers;
 
 use App\AttributeGroup;
+use App\AttributeValue;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
@@ -44,11 +45,15 @@ class FilterComposer
             $this->attrs = Cookie::get('attrs');
             $this->attrs = unserialize($this->attrs);
         } else {
-            $data = DB::select('select * from attribute_value');
+
+            $data = AttributeValue::all();
+            // dd($data);
             $attrs = [];
             foreach ($data as $k => $v) {
-                $attrs[$v->attribute_group_id][$k + 1] = $v->value;
+                // $attrs[$v->attribute_group_id][$k + 1] = $v->value;
+                $attrs[$v->attribute_group_id][$v->id] = $v->value;
             }
+            // dd($attrs);
             //для работы с куками
             $this->attrs = serialize($attrs);
             Cookie::queue('attrs', $this->attrs, 60 * 24 * 7);

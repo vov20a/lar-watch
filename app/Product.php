@@ -18,9 +18,20 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
     public function orders()
     {
-        return $this->belongsToMany(Order::class);
+        return $this->hasMany(Preview::class);
+    }
+
+    public function previews()
+    {
+        return $this->belongsToMany(Preview::class);
+    }
+
+    public function relateds()
+    {
+        return $this->hasMany(ProductRelated::class);
     }
 
     //функция расширения Sluggable
@@ -51,7 +62,7 @@ class Product extends Model
     public function getImage()
     {
         if (!$this->img) {
-            return asset('uploads/products/no-image.png');
+            return asset('uploads/products/no-image.jpg');
         }
         return asset("uploads/{$this->img}");
     }
@@ -85,5 +96,104 @@ class Product extends Model
             return Cookie::get("recentlyViewed");
         }
         return false;
+    }
+    public function editFilter($id, $data)
+    {
+
+        $filter = Attribute_Product::where('product_id', $id)->pluck('attr_id', 'id')->all();
+        // dd($data['attrs']);
+        // dump(!empty($data['attrs']));
+        //no filters(for checkbox)-- we have radio box
+        if (empty($data['attrs']) && !empty($filter)) {
+            // dd(111);
+            //SQL query
+            // \R::exec("DELETE FROM attribute_product WHERE product_id = ?", [$id]);
+            Attribute_Product::where(['product_id' => $id])->delete();
+            return;
+        }
+        // add filters
+        if (empty($filter) && !empty($data['attrs'])) {
+            // dd(222);
+            // dd($data['attrs']);
+            $arr = [];
+            foreach ($data['attrs'] as $key => $value) {
+                $arr[] = [
+                    'product_id' => $id,
+                    'attr_id' => $value
+                ];
+            }
+            Attribute_Product::insert($arr);
+            // dd(1);
+            // \R::exec("INSERT INTO attribute_product (attr_id,product_id) VALUES $sql_part");
+            return;
+        }
+        //фильтры изменились - удалим старые и запишем новые
+        if (!empty($data['attrs'])) {
+            // dd(333);
+            //changed something
+            $result = array_diff($filter, $data['attrs']);
+            //insert new
+            if (!empty($result)  || count($filter) != count($data['attrs'])) {
+                Attribute_Product::where(['product_id' => $id])->delete();
+                $arr = [];
+                foreach ($data['attrs'] as $key => $value) {
+                    $arr[] = [
+                        'product_id' => $id,
+                        'attr_id' => $value
+                    ];
+                }
+                Attribute_Product::insert($arr);
+                // \R::exec("INSERT INTO attribute_product (attr_id,product_id) VALUES $sql_part");
+            }
+        }
+    }
+    public function editRelatedProduct($id, $data)
+    {
+        $related = ProductRelated::where('product_id', $id)->pluck('related_id', 'id')->all();
+        // dd($data['related_products']);
+        // dump(!empty($data['attrs']));
+        //no filters(for checkbox)-- we have radio box
+        if (empty($data['related_products']) && !empty($related)) {
+            // dd(111);
+            //SQL query
+            // \R::exec("DELETE FROM attribute_product WHERE product_id = ?", [$id]);
+            Attribute_Product::where(['product_id' => $id])->delete();
+            return;
+        }
+        // add filters
+        if (empty($related) && !empty($data['related_products'])) {
+            // dd(222);
+            // dd($data['attrs']);
+            $arr = [];
+            foreach ($data['related_products'] as $key => $value) {
+                $arr[] = [
+                    'product_id' => $id,
+                    'related_id' => $value
+                ];
+            }
+            ProductRelated::insert($arr);
+            // dd(1);
+            // \R::exec("INSERT INTO attribute_product (attr_id,product_id) VALUES $sql_part");
+            return;
+        }
+        //фильтры изменились - удалим старые и запишем новые
+        if (!empty($data['related_products'])) {
+            // dd(333);
+            //changed something
+            $result = array_diff($related, $data['related_products']);
+            //insert new
+            if (!empty($result)  || count($related) != count($data['related_products'])) {
+                ProductRelated::where(['product_id' => $id])->delete();
+                $arr = [];
+                foreach ($data['related_products'] as $key => $value) {
+                    $arr[] = [
+                        'product_id' => $id,
+                        'related_id' => $value
+                    ];
+                }
+                ProductRelated::insert($arr);
+                // \R::exec("INSERT INTO attribute_product (attr_id,product_id) VALUES $sql_part");
+            }
+        }
     }
 }

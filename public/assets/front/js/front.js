@@ -12130,7 +12130,7 @@ document.body.onload = function(event) {
     // ===============end currency=============
     //=============/ cart============
 
-$(".add-to-cart").on("click", function(e) {
+$('body').on("click", ".add-to-cart", function(e) {
     e.preventDefault();
     let id = $(this).data("id");
     //берем qty то что в input, иначе qty=1
@@ -12304,7 +12304,7 @@ $(function() {
         });
     });
 });
-/* filters */
+/*=========== filters============== */
 $('body').on('change', '.w_sidebar input', function() {
     var checked = $('.w_sidebar input:checked'),
         data = '';

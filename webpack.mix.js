@@ -58,7 +58,7 @@ mix.styles(
         "resources/assets/admin/plugins/select2/select2.min.css",
         "resources/assets/admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.css",
         "resources/assets/admin/css/adminlte.min.css",
-        "resources/assets/admin/css/adminlte.min.css.map",
+        "resources/assets/admin/css/adminlte.min.css.map"
         // "resources/assets/admin/plugins/daterangepicker/daterangepicker.css"
     ],
     "public/assets/admin/css/admin.css"
@@ -69,13 +69,16 @@ mix.scripts(
         "resources/assets/admin/plugins/jquery/jquery.min.js",
         "resources/assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js",
         "resources/assets/admin/plugins/select2/select2.full.js",
-        // "resources/assets/admin/plugins/bs-custom-file-input/bs-custom-file-input.js",
+        "resources/assets/admin/plugins/bs-custom-file-input/bs-custom-file-input.js",
         "resources/assets/admin/js/adminlte.min.js",
-        // "resources/assets/front/js/validator.min.js",
+
+        "public/assets/admin/ckeditor5/build/ckeditor.js",
+        // "public/assets/admin/ckfinder/ckfinder.js"
         "resources/assets/admin/js/demo.js",
         // "resources/assets/admin/plugins/moment/moment.min.js",
         // "resources/assets/admin/plugins/daterangepicker/daterangepicker.js",
-        "resources/assets/admin/js/main.js"
+        "resources/assets/admin/js/main.js",
+
     ],
     "public/assets/admin/js/admin.js"
 );

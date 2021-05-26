@@ -16,6 +16,12 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/admin/css/admin.css') }}">
     <link rel="shortcut icon" href="{{ asset('assets/front/images/star.png') }}" type="image/x-icon" />
+    <style>
+        .ck-editor__editable_inline {
+            min-height: 300px;
+        }
+
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -26,7 +32,8 @@
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                    <a class="nav-link" data-widget="pushmenu" data-enable-remember="true" href="#" role="button"><i
+                            class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="{{ route('admin.index') }}" class="nav-link">Home</a>
@@ -230,6 +237,58 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-clock"></i>
+                                <p>
+                                    Products
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('products.index') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Product's list</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('products.create') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add product</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-filter"></i>
+                                <p>
+                                    Filters
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('filter-groups.index') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Group's filters</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('filter-attributes.index') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Filter's attributes</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('clear', ['slug' => 1]) }}" class="nav-link">
+                                <i class="nav-icon fab fa-bitbucket"></i>
+                                <p>Clear:cache&Cookie</p>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -255,6 +314,9 @@
     </div>
     <!-- ./wrapper -->
     <script src="{{ asset('assets/admin/js/admin.js') }}"></script>
+    {{-- <script src="{{ asset("assets/admin/ckeditor5/build/ckeditor.js") }}"></script> --}}
+    <script src="{{ asset('assets/admin/ckfinder/ckfinder.js') }}"></script>
+
 </body>
 
 </html>

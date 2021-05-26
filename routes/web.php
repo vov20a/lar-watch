@@ -99,18 +99,23 @@ Route::group(
     function () {
         //===admin change status=====
         Route::post('/order/status', 'OrderController@status')->name('changeStatus');
-        // Route::get('/order/status', 'OrderController@status')->name('changeStatus');
+        //clear cache and cookie
+        Route::match(['get', 'delete'], '/clear', 'CacheClearController@clear')->name('clear');
 
         Route::get('/', 'MainController@index')->name('admin.index');
         //имена маршрутов см по команде $ php artisan route:list --path=admin/cat-уже заданы 7 шт
-        Route::resource('/categories', 'categoryController');
+        Route::resource('/categories', 'CategoryController');
         //имена маршрутов см по команде $ php artisan route:list --path=admin/user-уже заданы 7 шт
-        Route::resource('/users', 'userController');
+        Route::resource('/users', 'UserController');
         //имена маршрутов см по команде $ php artisan route:list --path=admin/order-уже заданы 7 шт
-        Route::resource('/orders', 'orderController');
-        //имена маршрутов см по команде $ php artisan route:list --path=admin/product-уже заданы 7 шт
-        Route::resource('/products', 'productController');
+        Route::resource('/orders', 'OrderController');
+        //имена маршрутов см по команде $ php artisan route:list --path=admin/related-product-уже заданы 7 шт
+        Route::resource('/products', 'ProductController');
         //имена маршрутов см по команде $ php artisan route:list --path=admin/currency-уже заданы 7 шт
         Route::resource('/currencies', 'CurrencyController');
+        //имена маршрутов см по команде
+        Route::resource('/filter-groups', 'FilterGroupController');
+        //имена маршрутов см по команде
+        Route::resource('/filter-attributes', 'FilterAttributeController');
     }
 );
